@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ПоискКино</string>
+    <string name="sort_hint">Сортировка</string>
+    <string name="search_hint">Поиск</string>
+    <string name="settings_hint">Настройки</string>
+    <string name="share_hint">Поделиться</string>
+    <string name="about_app">О приложении</string>
+    <string name="main">Главный</string>
+    <string name="category">По категориям</string>
+    <string name="favorite">Избранное</string>
+</resources>

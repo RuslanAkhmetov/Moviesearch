@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MovieSearch</string>
+    <string name="sort_hint">Sort</string>
+    <string name="search_hint">Search</string>
+    <string name="settings_hint">Setting</string>
+    <string name="share_hint">Share</string>
+    <string name="about_app">About app</string>
+    <string name="main">Main</string>
+    <string name="category">Category</string>
+    <string name="favorite">Favorite</string>
+</resources>
