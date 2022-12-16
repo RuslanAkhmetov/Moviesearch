@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.AppExecutors
 import com.geekbrain.androidwithkotlin.database.Movie
 import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
-import com.geekbrain.androidwithkotlin.utils.Credentials
+import com.geekbrain.androidwithkotlin.response.item
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
 class MovieApiClient {
@@ -33,11 +32,11 @@ class MovieApiClient {
 
     }
 
-    private var movies: MutableLiveData<List<Movie>> = MutableLiveData()
+    private var movies: MutableLiveData<List<Movie>?> = MutableLiveData()
 
 
-
-    fun getMovies(): MutableLiveData<List<Movie>> {
+    fun getMovies(): MutableLiveData<List<Movie>?> {
+        Log.i(TAG, "getMovies: ${this.movies?.value?.size}")
         return this.movies
     }
 
@@ -62,9 +61,6 @@ class MovieApiClient {
         val  responseCall : Call<MovieSearchResponse> = movieApi
             .getTop25oMovies()    //Credentials.API_KEY)
 
-/*        val retrofit = Retrofit.Builder()
-            .baseUrl("https://imdb-api.com/en/API/Top250Movies/k_jnyqw63u")
-            .build()*/
 
 
         responseCall.enqueue(object : Callback<MovieSearchResponse> {
@@ -77,8 +73,15 @@ class MovieApiClient {
                     Log.i(TAG, "onResponse: ${response.raw()}" )
                     Log.i(TAG, "onResponse: ${response.body()}" )
                     Log.i(TAG, "onResponse: ${response.headers()}" )
+                    val movies1 = response.body()?.getMovies()
+                    if (movies1 != null) {
+                        for(m: Movie in movies1) {
+                            m.Title?.let { Log.i(TAG, it) }
+                        }
+                        movies.value = movies1
+                        Log.i(TAG, "movies.size: ${movies?.value?.size}")
+                    }
 
-                    movies.postValue(response.body()?.getMovie())
                 }
             }
 

@@ -7,16 +7,16 @@ import com.google.gson.annotations.SerializedName
 //This class for TOp250 request
 class MovieSearchResponse {
     // 1. Finding movie object
-    @SerializedName("Top250Data")
+    @SerializedName("items")
     @Expose
-    private  var movies: List<Movie> = listOf<Movie>()
+    private lateinit var items: List<Movie>
 
-    fun getMovie(): List<Movie>{
-        return movies
+    fun getMovies(): List<Movie>?{
+        return items
     }
 
     override fun toString(): String {
-        return "MovieSearchResponse(movies=$movies)"
+        return "MovieSearchResponse(movies=$items)"
     }
 
 

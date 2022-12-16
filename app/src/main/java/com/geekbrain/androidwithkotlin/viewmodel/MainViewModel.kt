@@ -1,5 +1,6 @@
 package com.geekbrain.androidwithkotlin.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekbrain.androidwithkotlin.database.Movie
@@ -11,7 +12,9 @@ class MainViewModel() : ViewModel() {
 
     private val movieRepository = MovieRepository.get()
 
-    fun getTop250Data(): MutableLiveData<List<Movie>>? {
+
+    fun getTop250Data(): MutableLiveData<List<Movie>?>? {
+        Log.i(TAG, "getTop250Data: ")
         return movieRepository.getTop250Data()
     }
 

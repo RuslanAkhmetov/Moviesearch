@@ -3,6 +3,7 @@ package com.geekbrain.androidwithkotlin.ui.main
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,10 @@ import com.geekbrain.androidwithkotlin.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
+    private val TAG = "MainFragment"
 
     private lateinit var movieRecyclerView: RecyclerView
+
     private var adapter: MovieAdapter? = null
 
     private lateinit var binding: FragmentMainBinding
@@ -36,6 +39,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         // TODO: Use the ViewModel
     }
 
@@ -54,6 +58,7 @@ class MainFragment : Fragment() {
 
     private fun upDateUI() {
         val movies = viewModel.getTop250Data()?.value
+        Log.i(TAG, "upDateUI: ${movies?.size}")
         adapter = movies?.let { MovieAdapter(it) }
         binding.movieRecyclerView.adapter = adapter
     }
@@ -66,7 +71,7 @@ class MainFragment : Fragment() {
         val itemSettingButton :ImageButton = itemView.findViewById( R.id.setting_button)
 
         fun bind(movie: Movie){
-            movieImage.setImageURI(Uri.parse(movie.Image))
+            //movieImage.setImageURI(Uri.parse(movie.Image))
             movieTitle.text = movie.Title
 
         }
