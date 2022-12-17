@@ -9,9 +9,9 @@ class MovieSearchResponse {
     // 1. Finding movie object
     @SerializedName("items")
     @Expose
-    private lateinit var items: List<Movie>
+    private lateinit var items: List<item>
 
-    fun getMovies(): List<Movie>?{
+    fun getMovies(): List<item>?{
         return items
     }
 

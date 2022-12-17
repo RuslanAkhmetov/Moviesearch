@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.database.Movie
 import com.geekbrain.androidwithkotlin.request.MovieApiClient
+import com.geekbrain.androidwithkotlin.response.item
 
 class MovieRepository private constructor(context: Context) {
 
@@ -27,7 +28,7 @@ class MovieRepository private constructor(context: Context) {
 
     private var  movieApiClient = MovieApiClient.initialize()
 
-    fun getTop250Data() : MutableLiveData<List<Movie>?>? {
+    fun getTop250Data() : MutableLiveData<List<item>?>? {
         Log.i(TAG, "getTop250Data: ")
         return this.movieApiClient?.getMovies()
     }

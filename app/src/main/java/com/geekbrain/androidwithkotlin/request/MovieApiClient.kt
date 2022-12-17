@@ -32,11 +32,14 @@ class MovieApiClient {
 
     }
 
-    private var movies: MutableLiveData<List<Movie>?> = MutableLiveData()
+    private var movies: MutableLiveData<List<item>?> = MutableLiveData()
 
 
-    fun getMovies(): MutableLiveData<List<Movie>?> {
+    fun getMovies(): MutableLiveData<List<item>?> {
         Log.i(TAG, "getMovies: ${this.movies?.value?.size}")
+        if (this.movies == null){
+            MovieApiClient.initialize()
+        }
         return this.movies
     }
 
@@ -75,14 +78,17 @@ class MovieApiClient {
                     Log.i(TAG, "onResponse: ${response.headers()}" )
                     val movies1 = response.body()?.getMovies()
                     if (movies1 != null) {
-                        for(m: Movie in movies1) {
-                            m.Title?.let { Log.i(TAG, it) }
+                        for(m: item in movies1) {
+                           // m.title?.let { Log.i(TAG, it) }
                         }
-                        movies.value = movies1
-                        Log.i(TAG, "movies.size: ${movies?.value?.size}")
-                    }
+                        }
+
+                    movies.value =  response.body()?.getMovies()
+                    Log.i(TAG, "movies.size: ${movies?.value?.size}")
 
                 }
+
+
             }
 
             override fun onFailure(call: Call<MovieSearchResponse>, t: Throwable) {

@@ -11,6 +11,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrain.androidwithkotlin.R
@@ -18,6 +22,7 @@ import com.geekbrain.androidwithkotlin.database.Movie
 import com.geekbrain.androidwithkotlin.databinding.ActivityMainBinding
 import com.geekbrain.androidwithkotlin.databinding.FragmentMainBinding
 import com.geekbrain.androidwithkotlin.databinding.ListItemMovieBinding
+import com.geekbrain.androidwithkotlin.response.item
 import com.geekbrain.androidwithkotlin.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -30,7 +35,10 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
 
-    companion object {
+
+
+        companion object {
+            var movies = MutableLiveData<List<item>>()
         fun newInstance() = MainFragment()
     }
 
@@ -38,7 +46,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
 
         // TODO: Use the ViewModel
     }
@@ -47,20 +55,28 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentMainBinding.inflate(inflater)
-        binding.movieRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        upDateUI()
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.getTop250Data().let { movies }
+        binding.movieRecyclerView.layoutManager = LinearLayoutManager(context)
+        val observer = Observer<List<item>?>   { upDateUI()}
+        viewModel.getTop250Data()?.observe(viewLifecycleOwner, observer )
+
+    }
+
     private fun upDateUI() {
-        val movies = viewModel.getTop250Data()?.value
-        Log.i(TAG, "upDateUI: ${movies?.size}")
-        adapter = movies?.let { MovieAdapter(it) }
+
+        Log.i(TAG, "upDateUI: ${movies?.value?.size}")
+//        Log.i(TAG, "upDateUI: ${movies[0].Title}")
+        adapter = movies?.let { it.value?.let { it1 -> MovieAdapter(it1) } }
         binding.movieRecyclerView.adapter = adapter
+
     }
 
     private inner class MovieHolder(view: View): RecyclerView.ViewHolder(view){
@@ -70,14 +86,14 @@ class MainFragment : Fragment() {
         val movieTitle: TextView = itemView.findViewById(R.id.movie_title)
         val itemSettingButton :ImageButton = itemView.findViewById( R.id.setting_button)
 
-        fun bind(movie: Movie){
+        fun bind(movie: item){
             //movieImage.setImageURI(Uri.parse(movie.Image))
-            movieTitle.text = movie.Title
+            movieTitle.text = movie.title
 
         }
     }
 
-    private inner class MovieAdapter (val movies: List<Movie>): RecyclerView.Adapter<MovieHolder>(){
+    private inner class MovieAdapter (val movies: List<item>): RecyclerView.Adapter<MovieHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
             val view = layoutInflater.inflate(R.layout.list_item_movie, parent, false)
             return MovieHolder(view)
@@ -85,6 +101,7 @@ class MainFragment : Fragment() {
 
         override fun onBindViewHolder(holder: MovieHolder, position: Int) {
             val movie = movies[position]
+            Log.i(TAG, "onBindViewHolder: ${movie.title}" )
             holder.bind(movie)
         }
 
