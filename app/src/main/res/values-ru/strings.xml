@@ -9,4 +9,9 @@
     <string name="main">Главный</string>
     <string name="category">По категориям</string>
     <string name="favorite">Избранное</string>
+    <string name="movie_id">ID</string>
+    <string name="movie_rank">Ранк</string>
+    <string name="title">Название</string>
+    <string name="movie_year">Год</string>
+    <string name="crew_title">Участники</string>
 </resources>

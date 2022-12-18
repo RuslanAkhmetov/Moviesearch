@@ -8,4 +8,10 @@
     <string name="main">Main</string>
     <string name="category">Category</string>
     <string name="favorite">Favorite</string>
+    <string name="movie_id">ID</string>
+    <string name="movie_rank">Rank</string>
+    <string name="title">Title</string>
+    <string name="movie_year">Year</string>
+    <string name="crew_title">Crew</string>
+    <string name="imdbrating_label" translatable="false">imDbRating</string>
 </resources>

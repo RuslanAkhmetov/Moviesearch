@@ -3,7 +3,6 @@ package com.geekbrain.androidwithkotlin.request
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.AppExecutors
-import com.geekbrain.androidwithkotlin.database.Movie
 import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
 import com.geekbrain.androidwithkotlin.response.item
 import retrofit2.Call
@@ -36,7 +35,7 @@ class MovieApiClient {
 
 
     fun getMovies(): MutableLiveData<List<item>?> {
-        Log.i(TAG, "getMovies: ${this.movies?.value?.size}")
+        Log.i(TAG, "getMovies: ${this.movies.value?.size}")
         if (this.movies == null){
             MovieApiClient.initialize()
         }
@@ -79,12 +78,12 @@ class MovieApiClient {
                     val movies1 = response.body()?.getMovies()
                     if (movies1 != null) {
                         for(m: item in movies1) {
-                           // m.title?.let { Log.i(TAG, it) }
+                            m.title?.let { Log.i(TAG, it) }
                         }
                         }
 
                     movies.value =  response.body()?.getMovies()
-                    Log.i(TAG, "movies.size: ${movies?.value?.size}")
+                    Log.i(TAG, "movies.size: ${movies.value?.size}")
 
                 }
 

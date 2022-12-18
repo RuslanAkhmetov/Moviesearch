@@ -1,11 +1,13 @@
 package com.geekbrain.androidwithkotlin.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-
-class item {
+@Parcelize
+class item: Parcelable {
     @SerializedName("id")
     @Expose
     var id: String? = null
