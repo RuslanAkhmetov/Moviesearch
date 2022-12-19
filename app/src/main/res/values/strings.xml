@@ -14,4 +14,5 @@
     <string name="movie_year">Year</string>
     <string name="crew_title">Crew</string>
     <string name="imdbrating_label" translatable="false">imDbRating</string>
+    <string name="reload">Reload</string>
 </resources>

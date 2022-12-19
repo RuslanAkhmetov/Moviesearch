@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class item: Parcelable {
+class MovieItem: Parcelable {
     @SerializedName("id")
     @Expose
     var id: String? = null

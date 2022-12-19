@@ -1,6 +1,5 @@
 package com.geekbrain.androidwithkotlin.response
 
-import com.geekbrain.androidwithkotlin.database.Movie
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -9,9 +8,9 @@ class MovieSearchResponse {
     // 1. Finding movie object
     @SerializedName("items")
     @Expose
-    private lateinit var items: List<item>
+    private lateinit var items: List<MovieItem>
 
-    fun getMovies(): List<item>?{
+    fun getMovies(): List<MovieItem>?{
         return items
     }
 

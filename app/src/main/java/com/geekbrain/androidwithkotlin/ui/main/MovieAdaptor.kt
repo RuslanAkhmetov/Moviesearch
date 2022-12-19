@@ -11,20 +11,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.geekbrain.androidwithkotlin.R
-import com.geekbrain.androidwithkotlin.response.item
+import com.geekbrain.androidwithkotlin.response.MovieItem
 
 class MovieAdapter (private var onItemViewClickListener: OnItemViewClickListener):
     RecyclerView.Adapter<MovieAdapter.MovieHolder>(){
     private val TAG = "MovieAdapter"
-    private var movies: List<item> = listOf()
+    private var movies: List<MovieItem> = listOf()
 
     interface OnItemViewClickListener{
-        fun onItemViewClick(movie: item)
+        fun onItemViewClick(movie: MovieItem)
     }
 
-    fun setMovieList(data: List<item>){
-        movies = data
-        notifyDataSetChanged()
+    fun setMovieList(data: List<MovieItem>?){
+        if (data != null) {
+            movies = data
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
@@ -50,7 +52,7 @@ class MovieAdapter (private var onItemViewClickListener: OnItemViewClickListener
         val itemSettingButton : ImageButton = itemView.findViewById( R.id.setting_button)
 
 
-        fun bind(movie: item, view: View){
+        fun bind(movie: MovieItem, view: View){
             Glide.with(view).load(Uri.parse(movie.image)).into(movieImage)
 //            movieImage.setImageURI(Uri.parse(movie.image))
             movieTitle.text = movie.title

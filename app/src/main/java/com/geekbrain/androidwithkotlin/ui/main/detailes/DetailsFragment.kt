@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.geekbrain.androidwithkotlin.databinding.FragmentDetailsBinding
-import com.geekbrain.androidwithkotlin.response.item
+import com.geekbrain.androidwithkotlin.response.MovieItem
 
 
 class DetailsFragment : Fragment() {
@@ -40,7 +40,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movie = arguments?.getParcelable<item>(BUNDLE_EXTRA)
+        val movie = arguments?.getParcelable<MovieItem>(BUNDLE_EXTRA)
 
         if (movie != null) {
             binding.movieId.text = movie.id

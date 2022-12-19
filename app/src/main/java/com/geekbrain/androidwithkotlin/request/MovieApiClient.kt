@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.AppExecutors
 import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
-import com.geekbrain.androidwithkotlin.response.item
+import com.geekbrain.androidwithkotlin.viewmodel.AppState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,11 +31,12 @@ class MovieApiClient {
 
     }
 
-    private var movies: MutableLiveData<List<item>?> = MutableLiveData()
+    //private var movies: MutableLiveData<List<MovieItem>?> = MutableLiveData()
+    private var movies: MutableLiveData<AppState> = MutableLiveData()
 
 
-    fun getMovies(): MutableLiveData<List<item>?> {
-        Log.i(TAG, "getMovies: ${this.movies.value?.size}")
+    fun getMovies(): MutableLiveData<AppState> {   //MutableLiveData<List<MovieItem>?> {
+        //Log.i(TAG, "getMovies: ${this.movies.value?.size}")
         if (this.movies == null){
             MovieApiClient.initialize()
         }
@@ -76,14 +77,14 @@ class MovieApiClient {
                     Log.i(TAG, "onResponse: ${response.body()}" )
                     Log.i(TAG, "onResponse: ${response.headers()}" )
                     val movies1 = response.body()?.getMovies()
-                    if (movies1 != null) {
-                        for(m: item in movies1) {
+                    /*if (movies1 != null) {
+                        *//*for(m: MovieItem in movies1) {
                             m.title?.let { Log.i(TAG, it) }
-                        }
-                        }
+                        }*//*
+                        }*/
 
-                    movies.value =  response.body()?.getMovies()
-                    Log.i(TAG, "movies.size: ${movies.value?.size}")
+                    movies.postValue(AppState.Success(response.body()?.getMovies()))
+//                    Log.i(TAG, "movies.size: ${movies.value?.size}")
 
                 }
 
@@ -91,7 +92,7 @@ class MovieApiClient {
             }
 
             override fun onFailure(call: Call<MovieSearchResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                movies.postValue(AppState.Error(java.lang.RuntimeException("Can't load data")))
             }
 
 
