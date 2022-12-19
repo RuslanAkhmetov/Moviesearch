@@ -2,17 +2,10 @@ package com.geekbrain.androidwithkotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.geekbrain.androidwithkotlin.databinding.ActivityMainBinding
-import com.geekbrain.androidwithkotlin.request.Service
-import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
 import com.geekbrain.androidwithkotlin.ui.main.MainFragment
-import com.geekbrain.androidwithkotlin.utils.Credentials
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.action_main -> {
-                    //getRetrofitResponse()
 
                 }
                 R.id.action_category -> {
@@ -42,40 +34,38 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-    if (savedInstanceState == null)
-    {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, MainFragment.newInstance())
-            .commitNow()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow()
 
 
+        }
     }
-}
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.user_info_menu, menu);
-    return true
-}
-
-override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-    R.id.action_search -> {
-        true
+        menuInflater.inflate(R.menu.user_info_menu, menu)
+        return true
     }
 
-    R.id.action_sort -> {
-        true
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_search -> {
+            true
+        }
 
-    R.id.action_settings -> {
-        true
-    }
+        R.id.action_sort -> {
+            true
+        }
 
-    else -> {
-        super.onOptionsItemSelected(item)
-    }
-}
+        R.id.action_settings -> {
+            true
+        }
 
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
 
 
 }

@@ -39,18 +39,18 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val movie = arguments?.getParcelable<MovieItem>(BUNDLE_EXTRA)
-
-        if (movie != null) {
-            binding.movieId.text = movie.id
-            binding.movieRank.text = movie.rank
-            binding.movieTitle.text = movie.title
-            binding.movieYear.text = movie.year
-            binding.movieCrew.text = movie.crew
-            binding.movieImDbRating.text = movie.imDbRating
+        with(binding) {
+            arguments?.getParcelable<MovieItem>(BUNDLE_EXTRA)?.apply {
+                movieId.text = id
+                movieRank.text = rank
+                movieTitle.text = title
+                movieYear.text = year
+                movieCrew.text = crew
+                movieImDbRating.text = imDbRating
+            }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

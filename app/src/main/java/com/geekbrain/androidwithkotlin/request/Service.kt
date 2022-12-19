@@ -14,9 +14,8 @@ class Service {
 
         private val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
 
-        fun getMovieApi(): MovieApi{
-            return movieApi
-        }
+        fun getMovieApi(): MovieApi = movieApi
+
     }
 
 }

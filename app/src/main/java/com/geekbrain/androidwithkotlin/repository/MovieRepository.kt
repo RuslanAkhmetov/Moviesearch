@@ -1,7 +1,6 @@
 package com.geekbrain.androidwithkotlin.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.request.MovieApiClient
 import com.geekbrain.androidwithkotlin.viewmodel.AppState
@@ -27,9 +26,7 @@ class MovieRepository private constructor(context: Context) {
 
     private var  movieApiClient = MovieApiClient.initialize()
 
-    fun getTop250Data() : MutableLiveData<AppState>? { //MutableLiveData<List<MovieItem>?>? {
-        Log.i(TAG, "getTop250Data: ")
-        return this.movieApiClient?.getMovies()
-    }
+    fun getTop250Data() : MutableLiveData<AppState>? =
+                        this.movieApiClient?.getMovies()
 
 }

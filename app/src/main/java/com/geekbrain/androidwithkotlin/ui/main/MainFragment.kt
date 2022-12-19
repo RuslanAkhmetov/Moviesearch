@@ -1,7 +1,6 @@
 package com.geekbrain.androidwithkotlin.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,17 +20,13 @@ class MainFragment : Fragment() {
 
     private val TAG = "MainFragment"
 
-    //private lateinit var movieRecyclerView: RecyclerView
-
     private var adapter = MovieAdapter(object : MovieAdapter.OnItemViewClickListener {
         override fun onItemViewClick(movie: MovieItem) {
-            val fragmentManager=activity?.supportFragmentManager
-            Log.i(TAG, "onItemViewClick: ")
-            if(fragmentManager != null){
-                val bundle = Bundle()
-                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
-                fragmentManager.beginTransaction()
-                    .replace(R.id.container, DetailsFragment.newInstance(bundle))
+            activity?.supportFragmentManager?.apply {
+                beginTransaction()
+                    .replace(R.id.container, DetailsFragment.newInstance(Bundle().apply {
+                            putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
+                    }))
                     .addToBackStack("")
                     .commitAllowingStateLoss()
             }
@@ -40,15 +35,13 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    val viewModel by viewModels<MainViewModel>()
+
+    private val viewModel by viewModels<MainViewModel>()
 
     companion object {
         @JvmStatic
         fun newInstance() = MainFragment()
     }
-
-    //private lateinit var viewModel: MainViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,12 +52,9 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //val viewModel by viewModels<MainViewModel>()
-        //val observer = Observer<List<MovieItem>?> { upDateUI(it) }
         val observer = Observer<AppState> { upDateUI(it) }
 
         binding.movieRecyclerView.layoutManager = LinearLayoutManager(context)
-//        viewModel.getTop250Data()?.observe(viewLifecycleOwner, observer)
         viewModel.getTop250Data()?.observe(viewLifecycleOwner, observer)
 
     }
@@ -92,12 +82,6 @@ class MainFragment : Fragment() {
             }
         }
     }
-    /*private fun upDateUI(movies: List<MovieItem>) {
-
-        adapter.setMovieList(movies)
-        binding.movieRecyclerView.adapter = adapter
-
-    }*/
 
     override fun onDestroy() {
         super.onDestroy()

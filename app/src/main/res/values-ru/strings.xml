@@ -14,5 +14,5 @@
     <string name="title">Название</string>
     <string name="movie_year">Год</string>
     <string name="crew_title">Участники</string>
-    <string name="reload">Reload</string>
+    <string name="reload">Загрузить заново</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.geekbrain.androidwithkotlin.request
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.geekbrain.androidwithkotlin.AppExecutors
 import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
@@ -13,15 +12,15 @@ import java.util.concurrent.TimeUnit
 class MovieApiClient {
 
     private val TAG = "MovieApiClient"
+
     companion object {
         private var INSTANCE: MovieApiClient? = null
 
         fun initialize(): MovieApiClient? {
-            if (INSTANCE == null) {
-                INSTANCE = MovieApiClient()
-                INSTANCE!!.getRetrofitResponse()
+
+            return INSTANCE?:MovieApiClient().apply {
+                getRetrofitResponse()
             }
-            return INSTANCE
         }
 
         fun get(): MovieApiClient? {
@@ -31,40 +30,15 @@ class MovieApiClient {
 
     }
 
-    //private var movies: MutableLiveData<List<MovieItem>?> = MutableLiveData()
     private var movies: MutableLiveData<AppState> = MutableLiveData()
 
-
-    fun getMovies(): MutableLiveData<AppState> {   //MutableLiveData<List<MovieItem>?> {
-        //Log.i(TAG, "getMovies: ${this.movies.value?.size}")
-        if (this.movies == null){
-            MovieApiClient.initialize()
-        }
-        return this.movies
-    }
-
-    fun searchMoviesApi() {
-        val myHandler = AppExecutors.get()?.scheduledExecutorService?.submit(Runnable {
-            run {
-                //Retrieve Data from API
-            }
-        })
-
-        AppExecutors.get()?.scheduledExecutorService?.schedule(Runnable {
-            run {
-                //Cancelling the retrofit code
-                myHandler?.cancel(true)
-            }
-        }, 5000, TimeUnit.MICROSECONDS)
-    }
+    fun getMovies(): MutableLiveData<AppState> = this.movies
 
     private fun getRetrofitResponse() {
         val movieApi = Service.getMovieApi()
 
         val  responseCall : Call<MovieSearchResponse> = movieApi
-            .getTop25oMovies()    //Credentials.API_KEY)
-
-
+                                                        .getTop25oMovies()
 
         responseCall.enqueue(object : Callback<MovieSearchResponse> {
             override fun onResponse(
@@ -72,33 +46,34 @@ class MovieApiClient {
                 response: Response<MovieSearchResponse>
             ) {
                 if(response.code() == 200){
-
-                    Log.i(TAG, "onResponse: ${response.raw()}" )
-                    Log.i(TAG, "onResponse: ${response.body()}" )
-                    Log.i(TAG, "onResponse: ${response.headers()}" )
-                    val movies1 = response.body()?.getMovies()
-                    /*if (movies1 != null) {
-                        *//*for(m: MovieItem in movies1) {
-                            m.title?.let { Log.i(TAG, it) }
-                        }*//*
-                        }*/
-
                     movies.postValue(AppState.Success(response.body()?.getMovies()))
-//                    Log.i(TAG, "movies.size: ${movies.value?.size}")
-
+                } else{
+                    movies.postValue(AppState.Loading)
                 }
-
-
             }
 
             override fun onFailure(call: Call<MovieSearchResponse>, t: Throwable) {
                 movies.postValue(AppState.Error(java.lang.RuntimeException("Can't load data")))
             }
 
-
         })
     }
 
+}
+
+fun searchMoviesApi() {
+    val myHandler = AppExecutors.get()?.scheduledExecutorService?.submit(Runnable {
+        run {
+            //Retrieve Data from API
+        }
+    })
+
+    AppExecutors.get()?.scheduledExecutorService?.schedule(Runnable {
+        run {
+            //Cancelling the retrofit code
+            myHandler?.cancel(true)
+        }
+    }, 5000, TimeUnit.MICROSECONDS)
 }
 
 // Retrieving data from RestAPI by runnable class
