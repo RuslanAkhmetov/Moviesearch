@@ -29,6 +29,13 @@ android {
         }
     }
 
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("ApiKey.properties").newDataInputStream())
+        def apiKey = properties.getProperty("API_KEY", "")
+        it.buildConfigField "String", "API_KEY", apiKey
+    }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

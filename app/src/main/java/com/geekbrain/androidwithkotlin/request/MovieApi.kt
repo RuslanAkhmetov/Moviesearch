@@ -1,14 +1,12 @@
 package com.geekbrain.androidwithkotlin.request
 
 import com.geekbrain.androidwithkotlin.response.MovieSearchResponse
-import okhttp3.Call
 import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface MovieApi {
-    @GET("en/API/Top250Movies/k_jnyqw63u")
-    fun getTop25oMovies(
-        //@Query("_apiKey") key: String?
+    @GET("en/API/Top250Movies/{apiKey}")
+    fun getTop250Movies(
+        @Path("apiKey") key: String?
     ): retrofit2.Call<MovieSearchResponse>
 }

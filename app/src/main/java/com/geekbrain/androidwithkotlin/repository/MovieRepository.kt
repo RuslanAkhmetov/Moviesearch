@@ -10,7 +10,7 @@ class MovieRepository private constructor(context: Context) {
     private val TAG = "MovieRepository"
 
     companion object {
-        private var INSTANCE: MovieRepository? = null
+        private  var INSTANCE: MovieRepository? = null
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {

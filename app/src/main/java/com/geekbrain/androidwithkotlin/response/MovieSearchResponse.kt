@@ -18,5 +18,4 @@ class MovieSearchResponse {
         return "MovieSearchResponse(movies=$items)"
     }
 
-
 }
